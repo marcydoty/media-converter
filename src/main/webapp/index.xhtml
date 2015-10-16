@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+
+		<h:form enctype="multipart/form-data">
+			<p:growl id="messages" showDetail="true" />
+
+			<video width="320" height="240" controls="true" src="">
+				<source src="#{uploadController.fileUrl}" />
+			</video>
+			
+			<p:fileUpload value="#{uploadController.file}" mode="simple"
+				skinSimple="true" />
+			<p:commandButton value="Submit" ajax="false"
+				actionListener="#{uploadController.upload}" disabled="false" />
+		
+
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
