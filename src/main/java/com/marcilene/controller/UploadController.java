@@ -1,19 +1,21 @@
 package com.marcilene.controller;
 
-import java.io.IOException;
-
 import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import com.marcilene.service.AmazonService;
+
+import com.marcilene.service.UploadService;
 
 @Model
 public class UploadController {
 
 	@Inject
-	private AmazonService amazonService;
+	private UploadService uploadService;
+
 	private UploadedFile file;
 
 	private String fileUrl;
@@ -26,19 +28,17 @@ public class UploadController {
 		this.file = file;
 	}
 
-	public void upload() {
+	public void upload(FileUploadEvent event) {
+		file = event.getFile();
 		if (file != null) {
 			try {
+				fileUrl = uploadService.uploadAndEncode(file.getInputstream(), file.getFileName(), file.getSize());
 
-				fileUrl = amazonService.uploadFile(file.getInputstream(),
-						file.getSize(), file.getFileName());
-
-			} catch (IOException e) {
+				FacesMessage message = new FacesMessage("Vídeo enviado com sucesso.");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			FacesMessage message = new FacesMessage("Succesful",
-					file.getFileName() + " is uploaded.");
-			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
 
@@ -49,5 +49,4 @@ public class UploadController {
 	public void setFileUrl(String fileUrl) {
 		this.fileUrl = fileUrl;
 	}
-
 }
