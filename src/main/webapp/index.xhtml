@@ -14,11 +14,15 @@
 				<source src="#{uploadController.fileUrl}" />
 			</video>
 			
-			<p:fileUpload value="#{uploadController.file}" mode="simple"
-				skinSimple="true" />
+			<p:fileUpload value="#{uploadController.file}" mode="simple" 
+				skinSimple="true"  />
 			<p:commandButton value="Submit" ajax="false"
 				actionListener="#{uploadController.upload}" disabled="false" />
 		
+		
+ 
+   
+
 
 
 		</h:form>
