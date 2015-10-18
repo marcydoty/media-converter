@@ -11,18 +11,18 @@
 			<p:growl id="messages" showDetail="true" />
 
 			<h:panelGroup layout="block"
-				rendered="#{not empty uploadController.fileUrl}">
+				rendered="#{not empty uploadController.video.encodedUrl}">
 				<video class="video-js vjs-default-skin" data-setup="{}" width="768"
-					height="400" controls="true" autoplay="true" >
-					<source src="#{uploadController.fileUrl}" type="video/mp4" />
+					height="425" controls="true" autoplay="true" >
+					<source src="#{uploadController.video.encodedUrl}" type="video/mp4" />
 				</video>
 			</h:panelGroup>
 
 			<div>
-				<p:fileUpload value="#{uploadController.file}" mode="advanced" auto="true"
-					fileUploadListener="#{uploadController.upload}" skinSimple="true"
-					update="@form" onstart="PF('statusDialog').show()"
-					oncomplete="PF('statusDialog').hide()" />
+				<p:fileUpload label="Selecionar arquivo" value="#{uploadController.file}" 
+					mode="advanced" auto="true" fileUploadListener="#{uploadController.upload}" 
+					skinSimple="true" update="@form" onstart="PF('statusDialog').show()"
+					oncomplete="PF('statusDialog').hide()"  />
 			</div>
 
 		</h:form>

@@ -2,23 +2,59 @@ package com.marcilene.controller;
 
 import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
+import com.marcilene.entity.Video;
 import com.marcilene.service.UploadService;
 
 @Model
 public class UploadController {
+
+	/**
+	 * Classe que controla upload de arquivos para conversão e exibição.
+	 * 
+	 */
 
 	@Inject
 	private UploadService uploadService;
 
 	private UploadedFile file;
 
-	private String fileUrl;
+	private Video video;
+
+	public void upload(FileUploadEvent event) {
+		/**
+		 * Método para controle de upload de arquivos no browser
+		 * 
+		 */
+		
+		file = event.getFile();
+		if (file != null) {
+			try {
+				video = uploadService.uploadAndEncode(file.getInputstream(), file.getFileName(), file.getSize());
+				showMessage(FacesMessage.SEVERITY_INFO, "Vídeo enviado e convertido com sucesso.");
+			} catch (Exception e) {
+				showMessage(FacesMessage.SEVERITY_WARN, "Erro ao enviar vídeo!");
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void showMessage(Severity severity, String message) {
+		/**
+		 * Método para exibição de Mensagens
+		 * 
+		 * @return String - Mensagem de erro ou sucesso.
+		 */
+
+		FacesMessage facesMessage = new FacesMessage(severity, message, null);
+		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+	}
 
 	public UploadedFile getFile() {
 		return file;
@@ -28,25 +64,11 @@ public class UploadController {
 		this.file = file;
 	}
 
-	public void upload(FileUploadEvent event) {
-		file = event.getFile();
-		if (file != null) {
-			try {
-				fileUrl = uploadService.uploadAndEncode(file.getInputstream(), file.getFileName(), file.getSize());
-
-				FacesMessage message = new FacesMessage("Vídeo enviado com sucesso.");
-				FacesContext.getCurrentInstance().addMessage(null, message);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+	public Video getVideo() {
+		return video;
 	}
 
-	public String getFileUrl() {
-		return fileUrl;
-	}
-
-	public void setFileUrl(String fileUrl) {
-		this.fileUrl = fileUrl;
+	public void setVideo(Video video) {
+		this.video = video;
 	}
 }
