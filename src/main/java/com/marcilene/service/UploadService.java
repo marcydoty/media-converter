@@ -37,7 +37,7 @@ public class UploadService {
 		video.setSourceUrl(amazonService.uploadFile(input, size, name));
 		video.setEncodedUrl(encoderService.createJob(video.getSourceUrl()));
 		File tempFile = FileUtil.getFile(video.getEncodedUrl());
-		video.setEncodedUrl(amazonService.uploadFile(tempFile));
+		video.setEncodedUrl(amazonService.uploadFileEncoder(tempFile));
 		return video;
 	}
 }
