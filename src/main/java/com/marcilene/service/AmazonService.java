@@ -19,10 +19,11 @@ public class AmazonService {
 	 * 
 	 */
 
-	private static final String BUCKET_NAME = "newbucketmarcydoty";
-	private static final String ACCESS_KEY = "AKIAJ7J34V3CXL4OXJGA";
-	private static final String SECRET_KEY = "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";
+	private static final String BUCKET_NAME = "namebucket";
+	private static final String ACCESS_KEY = "acces_key";
+	private static final String SECRET_KEY = "secret_key";
 	private static final String URL_PATTERN = "https://s3-sa-east-1.amazonaws.com/{0}/{1}";
+
 
 	private AWSCredentials credentials;
 	private AmazonS3 client;

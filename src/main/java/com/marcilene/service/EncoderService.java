@@ -21,7 +21,7 @@ public class EncoderService {
 	 * 
 	 */
 
-	private static final String API_KEY = "c59d638bb4202cf954b2fb78e1c89c46";
+	private static final String API_KEY = "key_api_zencoder";
 
 	public String createJob(String url) throws ZencoderClientException, EncoderException {
 		/**
