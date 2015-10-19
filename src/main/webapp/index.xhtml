@@ -32,7 +32,7 @@
 				<p:fileUpload label="Selecionar arquivo"
 							  value="#{uploadController.file}" mode="advanced" auto="true"
 							  fileUploadListener="#{uploadController.upload}" skinSimple="true"
-							  update="@form" onstart="window.player.dispose(); PF('statusDialog').show()"
+							  update="@form" onstart="disposePlayer(); PF('statusDialog').show()"
 							  oncomplete="PF('statusDialog').hide()" onerror=""/>
 			</div>
 
@@ -46,7 +46,13 @@
 			<p:graphicImage name="/img/ajaxloadingbar.gif" />
 		</p:dialog>
 
-
+		<script type="text/javascript">
+			function disposePlayer() {
+				if(window.player){
+					window.player.dispose();
+				}
+			}
+		</script>
 
 	</ui:define>
 </ui:composition>
