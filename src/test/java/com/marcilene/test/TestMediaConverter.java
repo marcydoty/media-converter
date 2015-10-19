@@ -1,4 +1,6 @@
-import static org.junit.Assert.assertNotEquals;
+package com.marcilene.test;
+
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 
@@ -10,27 +12,36 @@ import com.marcilene.service.AmazonService;
 import com.marcilene.service.EncoderService;
 import com.marcilene.util.FileUtil;
 
-public class TestsMediaConverter {
+public class TestMediaConverter {
 
 	EncoderService encoderService = new EncoderService();
 	AmazonService amazonService = new AmazonService();
 	String urlTest = "http://dinamica-sambatech.s3.amazonaws.com/sample.dv";
+	String urlTestError = "http://dinamica-sambatech.s3.amazonaws.com/sample.css";
 	
 	@Test
 	public void testUploadService() throws ZencoderClientException, EncoderException {
 
 		String urlEncoder = encoderService.createJob(urlTest);
 		File tempFile = FileUtil.getFile(urlEncoder);
-		assertNotEquals("Erro ao enviar vídeo", "", amazonService.uploadFileEncoder(tempFile));
+		assertNotNull(amazonService.uploadFileEncoder(tempFile));
 
 	}
+	
 	@Test
-	public void testEncodeService() throws ZencoderClientException, EncoderException {
+	public void testEncoderService() throws ZencoderClientException, EncoderException {
 		EncoderService encoderService = new EncoderService();
-		assertNotEquals("Erro ao tentar converter vídeo", "", encoderService.createJob(urlTest));
+		assertNotNull(encoderService.createJob(urlTest));
 
 	}
+	
+	@Test(expected=EncoderException.class)
+	public void testEncoderServiceError() throws ZencoderClientException, EncoderException {
+		EncoderService encoderService = new EncoderService();
+		encoderService.createJob(urlTestError);
+		
 
+	}
 
 
 }
