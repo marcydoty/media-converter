@@ -1,5 +1,7 @@
 package com.marcilene.entity;
 
+import java.util.List;
+
 /**
  * Entidade de vídeo
  *
@@ -8,7 +10,7 @@ public class Video {
 
 	private String sourceUrl;
 	
-	private String encodedUrl;
+	private List<Output> outputs;
 
 	public String getSourceUrl() {
 		return sourceUrl;
@@ -18,13 +20,12 @@ public class Video {
 		this.sourceUrl = sourceUrl;
 	}
 
-	public String getEncodedUrl() {
-		return encodedUrl;
+	public List<Output> getOutputs() {
+		return outputs;
 	}
 
-	public void setEncodedUrl(String encodedUrl) {
-		this.encodedUrl = encodedUrl;
-	}
-	
+	public void setOutputs(List<Output> outputs) {
+		this.outputs = outputs;
+	}	
 	
 }
