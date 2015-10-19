@@ -1,11 +1,11 @@
 package com.marcilene.entity;
 
+/**
+ * Entidade de vídeo
+ *
+ */
 public class Video {
-	/**
-	 * Entidade de vídeo
-	 * 
-	 */
-	
+
 	private String sourceUrl;
 	
 	private String encodedUrl;

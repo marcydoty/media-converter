@@ -14,23 +14,25 @@ import com.brightcove.zencoder.client.response.ZencoderInputOutputProgress;
 import com.brightcove.zencoder.client.response.ZencoderJobDetail;
 import com.marcilene.exception.EncoderException;
 
+/**
+ * Classe para controle de serviços do Zencoder
+ *
+ */
 public class EncoderService {
 
-	/**
-	 * Classe para controle de serviços do Zencoder
-	 * 
-	 */
 
 	private static final String API_KEY = "key_api_zencoder";
 
+	/**
+	 * Método para criar uma chamada para que o arquivo seja convertido no Zencoder.
+	 * É criado um job com a chave do serviço do Zencoder que retorna a url do arquivo
+	 * já convertido.
+	 *
+	 *  @return String - URL do arquivo no Zencoder.
+	 */
+
 	public String createJob(String url) throws ZencoderClientException, EncoderException {
-		/**
-		 * Método para criar uma chamada para que o arquivo seja convertido no Zencoder.
-		 * É criado um job com a chave do serviço do Zencoder que retorna a url do arquivo
-		 * já convertido.
-		 * 
-		 *  @return String - URL do arquivo no Zencoder.
-		 */
+
 		
 		//Instanciando Cliente Zencoder e requisição  de Job
 		ZencoderClient client = new ZencoderClient(API_KEY);
@@ -72,11 +74,12 @@ public class EncoderService {
 		}
 	}
 
+	/**
+	 * Método para tratar as respostas de estado do arquivo em processamento
+	 *  @return Boolean
+	 */
+
 	private boolean inFinalState(State state) {
-		/**
-		 * Método para tratar as respostas de estado do arquivo em processamento
-		 *  @return Boolean
-		 */
 
 		if (state.equals(State.FAILED) || state.equals(State.FINISHED) || state.equals(State.CANCELLED)
 				|| state.equals(State.READY)) {

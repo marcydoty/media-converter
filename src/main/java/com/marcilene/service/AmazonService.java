@@ -13,72 +13,76 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
+/**
+ * Classe para controle de serviços da Amazon
+ */
 public class AmazonService {
-	/**
-	 * Classe para controle de serviços da Amazon
-	 * 
-	 */
 
-	private static final String BUCKET_NAME = "namebucket";
-	private static final String ACCESS_KEY = "acces_key";
-	private static final String SECRET_KEY = "secret_key";
-	private static final String URL_PATTERN = "https://s3-sa-east-1.amazonaws.com/{0}/{1}";
+    private static final String BUCKET_NAME = "namebucket";
+    private static final String ACCESS_KEY = "acces_key";
+    private static final String SECRET_KEY = "secret_key";
+    private static final String URL_PATTERN = "https://s3-sa-east-1.amazonaws.com/{0}/{1}";
 
 
-	private AWSCredentials credentials;
-	private AmazonS3 client;
+    private AWSCredentials credentials;
+    private AmazonS3 client;
 
-	public AmazonService() {
-		/**
-		 * Método para instanciar credenciais em cliente AmazonS3
-		 * 
-		 */
+    /**
+     * Método para instanciar credenciais em cliente AmazonS3
+     */
 
-		credentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);
-		client = new AmazonS3Client(credentials);
-	}
+    public AmazonService() {
 
-	public String buildUrl(String fileKey) {
-		/**
-		 * Método para construção da URL a ser enviada exibição do vídeo
-		 * 
-		 * @return String - URL.
-		 */
+        credentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);
+        client = new AmazonS3Client(credentials);
+    }
 
-		return MessageFormat.format(URL_PATTERN, BUCKET_NAME, fileKey);
-	}
 
-	public String uploadFile(InputStream input, Long size, String fileName) {
-		/**
-		 * Método upload de arquivo no Amazon S3
-		 * 
-		 * @return String - URL do arquivo na Amazon S3.
-		 */
+    /**
+     * Método para construção da URL a ser enviada exibição do vídeo
+     *
+     * @return String - URL.
+     */
 
-		String fileKey = UUID.randomUUID().toString() + fileName;
-		ObjectMetadata metadata = new ObjectMetadata();
-		metadata.setContentLength(size);
+    public String buildUrl(String fileKey) {
 
-		// Subindo o arquivo para o servidor
-		client.putObject(new PutObjectRequest(BUCKET_NAME, fileKey, input, metadata)
-				.withCannedAcl(CannedAccessControlList.PublicRead));
+        return MessageFormat.format(URL_PATTERN, BUCKET_NAME, fileKey);
+    }
 
-		return buildUrl(fileKey);
-	}
 
-	public String uploadFileEncoder(File input) {
-		/**
-		 * Método upload de arquivo no Amazon S3, com envio somente do parâmetro
-		 * input.
-		 * 
-		 * @return String - URL.
-		 */
+    /**
+     * Método upload de arquivo no Amazon S3
+     *
+     * @return String - URL do arquivo na Amazon S3.
+     */
 
-		String fileKey = UUID.randomUUID().toString() + input.getName();
-		client.putObject(
-				new PutObjectRequest(BUCKET_NAME, fileKey, input)
-				.withCannedAcl(CannedAccessControlList.PublicRead));
+    public String uploadFile(InputStream input, Long size, String fileName) {
 
-		return buildUrl(fileKey);
-	}
+        String fileKey = UUID.randomUUID().toString() + fileName;
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(size);
+
+        // Subindo o arquivo para o servidor
+        client.putObject(new PutObjectRequest(BUCKET_NAME, fileKey, input, metadata)
+                .withCannedAcl(CannedAccessControlList.PublicRead));
+
+        return buildUrl(fileKey);
+    }
+
+    /**
+     * Método upload de arquivo no Amazon S3, com envio somente do parâmetro
+     * input.
+     *
+     * @return String - URL.
+     */
+
+    public String uploadFileEncoder(File input) {
+
+        String fileKey = UUID.randomUUID().toString() + input.getName();
+        client.putObject(
+                new PutObjectRequest(BUCKET_NAME, fileKey, input)
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
+
+        return buildUrl(fileKey);
+    }
 }

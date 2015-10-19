@@ -10,18 +10,20 @@ import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
 
+/**
+ * Classe para tratamento de tipos de arquivos
+ *
+ */
 public class FileUtil {
+
+
 	/**
-	 * Classe para tratamento de tipos de arquivos
-	 * 
+	 * Método para tratar  arquivo do tipo Stream
+	 *
+	 * @return File
 	 */
 
 	public static File streamTofile(InputStream in) throws IOException {
-		/**
-		 * Método para tratar  arquivo do tipo Stream
-		 * 
-		 * @return File
-		 */
 
 		final File tempFile = File.createTempFile(UUID.randomUUID().toString(), ".mp4");
 		tempFile.deleteOnExit();
@@ -30,12 +32,12 @@ public class FileUtil {
 		return tempFile;
 	}
 
+	/**
+	 * Método que faz requisição do arquivo através da URL e retorna o mesmo.
+	 *
+	 * @return File
+	 */
 	public static File getFile(String url) {
-		/**
-		 * Método que faz requisição do arquivo através da URL e retorna o mesmo.
-		 * 
-		 * @return File
-		 */
 
 		File tempFile = null;
 		int responseCode = -1;

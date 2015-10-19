@@ -9,13 +9,13 @@ import com.brightcove.zencoder.client.ZencoderClientException;
 import com.marcilene.entity.Video;
 import com.marcilene.exception.EncoderException;
 import com.marcilene.util.FileUtil;
-
+/**
+ * Classe de interseção de serviços Amazon e Zencoder para o upload de
+ * arquivos
+ *
+ */
 public class UploadService {
-	/**
-	 * Classe de interseção de serviços Amazon e Zencoder para o upload de
-	 * arquivos
-	 * 
-	 */
+
 
 	@Inject
 	private AmazonService amazonService;
@@ -23,14 +23,15 @@ public class UploadService {
 	@Inject
 	private EncoderService encoderService;
 
+	/**
+	 * Método realizar upload do arquivo de entrada no Amazon S3 e conversão
+	 * com Zencoder salvando o arquivo convertido também Amazon S3.
+	 *
+	 * @return Video
+	 */
+
 	public Video uploadAndEncode(InputStream input, String name, Long size)
 			throws ZencoderClientException, EncoderException {
-		/**
-		 * Método realizar upload do arquivo de entrada no Amazon S3 e conversão
-		 * com Zencoder salvando o arquivo convertido também Amazon S3.
-		 * 
-		 * @return Video
-		 */
 
 		Video video = new Video();
 

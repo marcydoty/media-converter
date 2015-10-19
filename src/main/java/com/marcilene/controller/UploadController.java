@@ -12,63 +12,66 @@ import org.primefaces.model.UploadedFile;
 import com.marcilene.entity.Video;
 import com.marcilene.service.UploadService;
 
+
+/**
+ * Classe que controla upload de arquivos para conversão e exibição.
+ *
+ */
 @Model
 public class UploadController {
 
-	/**
-	 * Classe que controla upload de arquivos para conversão e exibição.
-	 * 
-	 */
 
-	@Inject
-	private UploadService uploadService;
+    @Inject
+    private UploadService uploadService;
 
-	private UploadedFile file;
+    private UploadedFile file;
 
-	private Video video;
+    private Video video;
 
-	public void upload(FileUploadEvent event) {
-		/**
-		 * Método para controle de upload de arquivos no browser
-		 * 
-		 */
-		
-		file = event.getFile();
-		if (file != null) {
-			try {
-				video = uploadService.uploadAndEncode(file.getInputstream(), file.getFileName(), file.getSize());
-				showMessage(FacesMessage.SEVERITY_INFO, "Vídeo enviado e convertido com sucesso.");
-			} catch (Exception e) {
-				showMessage(FacesMessage.SEVERITY_WARN, "Erro ao enviar vídeo!");
-				e.printStackTrace();
-			}
-		}
-	}
+    /**
+     * Método para controle de upload de arquivos no browser
+     *
+     */
+    public void upload(FileUploadEvent event) {
 
-	private void showMessage(Severity severity, String message) {
-		/**
-		 * Método para exibição de Mensagens
-		 * 
-		 * @return String - Mensagem de erro ou sucesso.
-		 */
 
-		FacesMessage facesMessage = new FacesMessage(severity, message, null);
-		FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-	}
+        file = event.getFile();
+        if (file != null) {
+            try {
+                video = uploadService.uploadAndEncode(file.getInputstream(), file.getFileName(), file.getSize());
+                showMessage(FacesMessage.SEVERITY_INFO, "Vídeo enviado e convertido com sucesso.");
+            } catch (Exception e) {
+                showMessage(FacesMessage.SEVERITY_WARN, "Erro ao enviar vídeo!");
+                e.printStackTrace();
+            }
+        }
+    }
 
-	public UploadedFile getFile() {
-		return file;
-	}
+    /**
+     * Método para exibição de Mensagens
+     *
+     * @return String - Mensagem de erro ou sucesso.
+     */
 
-	public void setFile(UploadedFile file) {
-		this.file = file;
-	}
+    private void showMessage(Severity severity, String message) {
 
-	public Video getVideo() {
-		return video;
-	}
+        FacesMessage facesMessage = new FacesMessage(severity, message, null);
+        FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+    }
 
-	public void setVideo(Video video) {
-		this.video = video;
-	}
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+
+    public Video getVideo() {
+        return video;
+    }
+
+    public void setVideo(Video video) {
+        this.video = video;
+    }
 }
