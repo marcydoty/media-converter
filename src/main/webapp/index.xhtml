@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	template="/WEB-INF/templates/default.xhtml">
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
 		<h2>O Media Converter</h2>
 		<h3>Selecione um arquivo de vídeo que deseja converter para o
@@ -13,28 +13,33 @@
 			<p:growl id="messages" showDetail="true" />
 
 			<h:panelGroup layout="block"
-				rendered="#{not empty uploadController.video.encodedUrl}">
-				<video class="video-js vjs-default-skin" data-setup="{}" width="768"
-					height="425" controls="true" autoplay="true">
+						  rendered="#{not empty uploadController.video.encodedUrl}">
+				<video  id="video" class="video-js vjs-default-skin" data-setup="{}" width="768"
+						height="425" controls="true" autoplay="true">
 					<source src="#{uploadController.video.encodedUrl}" type="video/mp4" />
 				</video>
+				<script>
+					var player = videojs('video', {}, function() {
+						this.play();
+					});
+				</script>
 			</h:panelGroup>
 
 			<div>
 				<p:fileUpload label="Selecionar arquivo"
-					value="#{uploadController.file}" mode="advanced" auto="true"
-					fileUploadListener="#{uploadController.upload}" skinSimple="true"
-					update="@form" onstart="PF('statusDialog').show()"
-					oncomplete="PF('statusDialog').hide()" />
+							  value="#{uploadController.file}" mode="advanced" auto="true"
+							  fileUploadListener="#{uploadController.upload}" skinSimple="true"
+							  update="@form" onstart="PF('statusDialog').show()"
+							  oncomplete="PF('statusDialog').hide()" />
 			</div>
 
 		</h:form>
 
 		<p:ajaxStatus onstart="PF('statusDialog').show()"
-			onsuccess="PF('statusDialog').hide()" />
+					  onsuccess="PF('statusDialog').hide()" />
 
 		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
-			closable="false" resizable="false" showHeader="false">
+				  closable="false" resizable="false" showHeader="false">
 			<p:graphicImage name="/img/ajaxloadingbar.gif" />
 		</p:dialog>
 
