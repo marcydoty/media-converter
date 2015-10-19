@@ -8,7 +8,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.UUID;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+
+import com.marcilene.enums.ContentType;
 
 /**
  * Classe para tratamento de tipos de arquivos
@@ -16,16 +19,15 @@ import org.apache.commons.io.IOUtils;
  */
 public class FileUtil {
 
-
 	/**
-	 * Método para tratar  arquivo do tipo Stream
+	 * Método para tratar arquivo do tipo Stream
 	 *
 	 * @return File
 	 */
 
-	public static File streamTofile(InputStream in) throws IOException {
+	public static File streamTofile(InputStream in, ContentType contentType) throws IOException {
 
-		final File tempFile = File.createTempFile(UUID.randomUUID().toString(), ".mp4");
+		final File tempFile = File.createTempFile(UUID.randomUUID().toString(), "." + contentType.getExtension());
 		tempFile.deleteOnExit();
 		FileOutputStream out = new FileOutputStream(tempFile);
 		IOUtils.copy(in, out);
@@ -52,12 +54,21 @@ public class FileUtil {
 					Thread.sleep(1000);
 					continue;
 				}
-				tempFile = FileUtil.streamTofile(connection.getInputStream());
+				tempFile = FileUtil.streamTofile(connection.getInputStream(), FileUtil.contentTypeFromUrl(url));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} while (responseCode != 200);
 
 		return tempFile;
+	}
+
+	public static ContentType contentTypeFromUrl(String url) {
+		if (url.contains("?")) {
+			url = url.substring(0, url.indexOf("?"));
+		}
+
+		String extension = FilenameUtils.getExtension(url);
+		return ContentType.fromExtension(extension);
 	}
 }

@@ -69,14 +69,14 @@ public class AmazonService {
         return buildUrl(fileKey);
     }
 
+    
     /**
-     * Método upload de arquivo no Amazon S3, com envio somente do parâmetro
-     * input.
+     * Método upload de arquivo no Amazon S3, com envio somente do parâmetro do tipo File
      *
      * @return String - URL.
      */
 
-    public String uploadFileEncoder(File input) {
+    public String uploadFile(File input) {
 
         String fileKey = UUID.randomUUID().toString() + input.getName();
         client.putObject(

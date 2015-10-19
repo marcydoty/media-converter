@@ -3,10 +3,12 @@ package com.marcilene.test;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
+import java.util.List;
 
 import org.junit.Test;
 
 import com.brightcove.zencoder.client.ZencoderClientException;
+import com.marcilene.entity.Output;
 import com.marcilene.exception.EncoderException;
 import com.marcilene.service.AmazonService;
 import com.marcilene.service.EncoderService;
@@ -22,9 +24,9 @@ public class TestMediaConverter {
 	@Test
 	public void testUploadService() throws ZencoderClientException, EncoderException {
 
-		String urlEncoder = encoderService.createJob(urlTest);
-		File tempFile = FileUtil.getFile(urlEncoder);
-		assertNotNull(amazonService.uploadFileEncoder(tempFile));
+		List<Output> outputs = encoderService.createJob(urlTest);
+		File tempFile = FileUtil.getFile(outputs.get(0).getUrl());
+		assertNotNull(amazonService.uploadFile(tempFile));
 
 	}
 	
@@ -42,6 +44,5 @@ public class TestMediaConverter {
 		
 
 	}
-
 
 }

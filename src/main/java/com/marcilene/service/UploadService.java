@@ -6,6 +6,7 @@ import java.io.InputStream;
 import javax.inject.Inject;
 
 import com.brightcove.zencoder.client.ZencoderClientException;
+import com.marcilene.entity.Output;
 import com.marcilene.entity.Video;
 import com.marcilene.exception.EncoderException;
 import com.marcilene.util.FileUtil;
@@ -36,9 +37,11 @@ public class UploadService {
 		Video video = new Video();
 
 		video.setSourceUrl(amazonService.uploadFile(input, size, name));
-		video.setEncodedUrl(encoderService.createJob(video.getSourceUrl()));
-		File tempFile = FileUtil.getFile(video.getEncodedUrl());
-		video.setEncodedUrl(amazonService.uploadFileEncoder(tempFile));
+		video.setOutputs(encoderService.createJob(video.getSourceUrl()));
+		for(Output output : video.getOutputs()) {
+			File tempFile = FileUtil.getFile(output.getUrl());
+			output.setUrl(amazonService.uploadFile(tempFile));			
+		}
 		return video;
 	}
 }

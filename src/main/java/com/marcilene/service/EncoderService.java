@@ -12,7 +12,10 @@ import com.brightcove.zencoder.client.request.ZencoderOutput;
 import com.brightcove.zencoder.client.response.ZencoderCreateJobResponse;
 import com.brightcove.zencoder.client.response.ZencoderInputOutputProgress;
 import com.brightcove.zencoder.client.response.ZencoderJobDetail;
+import com.brightcove.zencoder.client.response.ZencoderOutputResponse;
+import com.marcilene.entity.Output;
 import com.marcilene.exception.EncoderException;
+import com.marcilene.util.FileUtil;
 
 /**
  * Classe para controle de serviços do Zencoder
@@ -31,8 +34,8 @@ public class EncoderService {
 	 *  @return String - URL do arquivo no Zencoder.
 	 */
 
-	public String createJob(String url) throws ZencoderClientException, EncoderException {
-
+	public List<Output> createJob(String url) throws ZencoderClientException, EncoderException {
+		List<Output> outputList = new ArrayList<Output>();
 		
 		//Instanciando Cliente Zencoder e requisição  de Job
 		ZencoderClient client = new ZencoderClient(API_KEY);
@@ -44,8 +47,14 @@ public class EncoderService {
 		
 		//Setando saída e formato do arquivo para MP4
 		ZencoderOutput output1 = new ZencoderOutput();
-		output1.setFormat(ContainerFormat.MP4);
+		output1.setFormat(ContainerFormat.MP4); 
 		outputs.add(output1);
+		
+		//Setando saída e formato do arquivo para MP4
+		ZencoderOutput output2 = new ZencoderOutput();
+		output2.setFormat(ContainerFormat.WEBM);
+		outputs.add(output2);
+		
 		job.setOutputs(outputs);
 		
 		//Realizando a requisição da URL do arquivo convertido
@@ -68,7 +77,13 @@ public class EncoderService {
 		
 
 		if (inputState == State.FINISHED) {
-			return response.getOutputs().get(0).getUrl();
+			for(ZencoderOutputResponse outResponse : response.getOutputs()) {
+				Output output = new Output();
+				output.setUrl(outResponse.getUrl());
+				output.setContentType(FileUtil.contentTypeFromUrl(output.getUrl()));
+				outputList.add(output);
+			}
+			return outputList;
 		} else {
 			throw new EncoderException();
 		}
