@@ -50,6 +50,11 @@ public class EncoderService {
 		output1.setFormat(ContainerFormat.MP4); 
 		outputs.add(output1);		
 		
+		//Setando saída e formato do arquivo para OGG
+		ZencoderOutput output2 = new ZencoderOutput();
+		output2.setFormat(ContainerFormat.OGG);
+		outputs.add(output2);
+		
 		job.setOutputs(outputs);
 		
 		//Realizando a requisição da URL do arquivo convertido

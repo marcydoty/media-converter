@@ -3,7 +3,9 @@ package com.marcilene.enums;
 public enum ContentType {
 
 	MP4("video/mp4", "mp4"),
+	OGG("video/ogg", "ogg"),
 	WEBM("video/webm", "webm");
+
 
 	private String value;
 
