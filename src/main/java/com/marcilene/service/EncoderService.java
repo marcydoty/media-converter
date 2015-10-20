@@ -48,12 +48,7 @@ public class EncoderService {
 		//Setando saída e formato do arquivo para MP4
 		ZencoderOutput output1 = new ZencoderOutput();
 		output1.setFormat(ContainerFormat.MP4); 
-		outputs.add(output1);
-		
-		//Setando saída e formato do arquivo para MP4
-		ZencoderOutput output2 = new ZencoderOutput();
-		output2.setFormat(ContainerFormat.WEBM);
-		outputs.add(output2);
+		outputs.add(output1);		
 		
 		job.setOutputs(outputs);
 		
@@ -69,7 +64,7 @@ public class EncoderService {
 			inputState = inputProgress.getState();
 			System.out.println(inputState);
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(3000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

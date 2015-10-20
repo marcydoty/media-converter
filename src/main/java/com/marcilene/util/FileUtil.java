@@ -51,7 +51,7 @@ public class FileUtil {
 				connection.connect();
 				responseCode = connection.getResponseCode();
 				if (responseCode != 200) {
-					Thread.sleep(1000);
+					Thread.sleep(5000);
 					continue;
 				}
 				tempFile = FileUtil.streamTofile(connection.getInputStream(), FileUtil.contentTypeFromUrl(url));
